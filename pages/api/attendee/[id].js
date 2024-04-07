@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     }
   } else if (req.method === 'PUT') {
     // Update attendee by ID
-    const { name, facePhoto, enrollmentNum, email, school, branch, semester } = req.body;
+    const { name, facePhoto, enrollmentNum, email, school, branch, semester, university } = req.body;
     const updatedattendee = await prisma.Attendee.update({
       where: { id: parseInt(attendeeId) },
       data: {
@@ -27,6 +27,7 @@ export default async function handler(req, res) {
         school,
         branch,
         semester,
+        university,
       },
     });
     res.status(200).json(updatedattendee);

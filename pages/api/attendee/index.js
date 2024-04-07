@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     res.status(200).json(attendees);
   } else if (req.method === 'POST') {
     // Create a new attendee
-    const { name, facePhoto, enrollmentNum, email, school, branch, semester } = req.body;
+    const { name, facePhoto, enrollmentNum, email, school, branch, semester, university } = req.body;
     const attendee = await prisma.Attendee.create({
       data: {
         name,
