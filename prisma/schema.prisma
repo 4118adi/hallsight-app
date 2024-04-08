@@ -22,10 +22,29 @@ model Attendee {
 }
 
 model Organizer {
-  id         Int    @id @default(autoincrement())
+  id         Int     @id @default(autoincrement())
   name       String
-  email      String @unique
+  email      String  @unique
   school     String
   department String
+  events     Event[]
+}
+
+model Hall {
+  id      Int     @id @default(autoincrement())
+  name    String
+  address String
+  price   Float
+  events  Event[] // Establishing a one-to-many relationship between Hall and Event
+}
+
+model Event {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  venue       Hall      @relation(fields: [venueId], references: [id])
+  venueId     Int // Foreign key referencing the id of Hall
+  organizer   Organizer @relation(fields: [organizerId], references: [id])
+  organizerId Int
 }
 
