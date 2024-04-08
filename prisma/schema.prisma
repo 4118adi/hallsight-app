@@ -10,15 +10,16 @@ datasource db {
 }
 
 model Attendee {
-  id            Int    @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
   name          String
   facePhoto     String // Assuming the photo will be stored as a URL or file path
-  enrollmentNum String @unique
-  email         String @unique
+  enrollmentNum String       @unique
+  email         String       @unique
   school        String
   branch        String
   semester      Int
   university    String
+  attendances   Attendance[]
 }
 
 model Organizer {
@@ -31,20 +32,32 @@ model Organizer {
 }
 
 model Hall {
-  id      Int     @id @default(autoincrement())
-  name    String
-  address String
-  price   Float
-  events  Event[] // Establishing a one-to-many relationship between Hall and Event
+  id       Int     @id @default(autoincrement())
+  name     String
+  address  String
+  capacity Int
+  price    Float
+  events   Event[] // Establishing a one-to-many relationship between Hall and Event
 }
 
 model Event {
-  id          Int       @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   name        String
   description String
-  venue       Hall      @relation(fields: [venueId], references: [id])
-  venueId     Int // Foreign key referencing the id of Hall
-  organizer   Organizer @relation(fields: [organizerId], references: [id])
+  startTime   DateTime
+  endTime     DateTime
+  hall        Hall         @relation(fields: [hallId], references: [id])
+  hallId      Int // Foreign key referencing the id of Hall
+  organizer   Organizer    @relation(fields: [organizerId], references: [id])
   organizerId Int
+  attendances Attendance[]
 }
 
+model Attendance {
+  id         Int      @id @default(autoincrement())
+  attendeeId Int
+  eventId    Int
+  date       DateTime
+  attendee   Attendee @relation(fields: [attendeeId], references: [id])
+  event      Event    @relation(fields: [eventId], references: [id])
+}
