@@ -5,10 +5,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 type Props = {}
 
 export default function MainTab({ }: Props) {
-    const isThirdTabEnabled = false;
+    const isThirdTabEnabled = true;
     return (
 
-        <div className='flex w-full px-0 justify-center'>
+        <div className='flex fixed top-2 w-full px-0 justify-center'>
             <Tabs defaultValue="events" className='w-[350px]'>
                 <div className='flex justify-center'>
                     <TabsList className='flex overflow-hidden w-auto px-3'>
