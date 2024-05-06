@@ -25,6 +25,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 import { toast } from "@/components/ui/use-toast"
 
 const accountFormSchema = z.object({
@@ -42,9 +51,11 @@ const accountFormSchema = z.object({
   eventdate: z.date({
     required_error: "Event Date is required.",
   }),
-
   organizer: z.string({
     required_error: "Organizer is required.",
+  }),
+  hall: z.string({
+    required_error: "Hall is required.",
   }),
 })
 
@@ -124,7 +135,31 @@ export function AccountForm() {
           )}
         />
 
-       
+        <FormField
+          control={form.control}
+          name="hall"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Hall</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a hall" {...field}/>
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="SOT Auditorium">SOT Auditorium</SelectItem>
+                  <SelectItem value="Nagar Auditorium">Nagar Auditorium</SelectItem>
+                  <SelectItem value="SOT CR 10">SOT CR 10</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormDescription>
+                This is your venue.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
