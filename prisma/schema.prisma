@@ -12,7 +12,6 @@ datasource db {
 model Attendee {
   id            Int          @id @default(autoincrement())
   name          String
-  facePhoto     String // Assuming the photo will be stored as a URL or file path
   enrollmentNum String       @unique
   email         String       @unique
   school        String
@@ -60,4 +59,23 @@ model Attendance {
   date       DateTime
   attendee   Attendee @relation(fields: [attendeeId], references: [id])
   event      Event    @relation(fields: [eventId], references: [id])
+}
+
+model User {
+  id                        Int       @id @default(autoincrement())
+  username                  String    @unique
+  email                     String    @unique
+  password                  String
+  role                      Role      @default(ATTENDEE)
+}
+
+model session{
+  user_id            Int             @unique
+  lastAccessedDate   DateTime        @default(now())
+}
+
+enum Role {
+  ADMIN
+  ATTENDEE
+  ORGANISER
 }
