@@ -1,6 +1,10 @@
 import * as React from "react"
 
+<<<<<<< HEAD
 import { cn } from "../../lib/utils"
+=======
+import { cn } from "@/lib/utils"
+>>>>>>> 77fad3953742a3520efafb7642f412cc4039e393
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
