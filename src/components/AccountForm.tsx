@@ -21,12 +21,12 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-  } from "@/components/ui/popover"
-  import { toast } from "@/components/ui/use-toast"
-  
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { toast } from "@/components/ui/use-toast"
+
 const accountFormSchema = z.object({
   name: z
     .string()
@@ -36,8 +36,15 @@ const accountFormSchema = z.object({
     .max(30, {
       message: "Name must not be longer than 30 characters.",
     }),
-  dob: z.date({
-    required_error: "A date for the Event is required.",
+  description: z.string({
+    required_error: "Please add a description.",
+  }),
+  eventdate: z.date({
+    required_error: "Event Date is required.",
+  }),
+
+  organizer: z.string({
+    required_error: "Organizer is required.",
   }),
 })
 
@@ -46,7 +53,7 @@ type AccountFormValues = z.infer<typeof accountFormSchema>
 // This can come from your database or API.
 const defaultValues: Partial<AccountFormValues> = {
   // name: "Your name",
-  // dob: new Date("2023-01-23"),
+  // eventdate: new Date("2023-01-23"),
 }
 
 export function AccountForm() {
@@ -79,15 +86,61 @@ export function AccountForm() {
                 <Input placeholder="Literary Criticism" {...field} />
               </FormControl>
               <FormDescription>
-                This is the name that will be displayed on the Event Card.
+                Title to be displayed on the Event Card.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
-          name="dob"
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Event Description</FormLabel>
+              <FormControl>
+                <Input placeholder="An event aimed towards..." {...field} />
+              </FormControl>
+              <FormDescription>
+                Briefly describe your event.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="organizer"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Organizer</FormLabel>
+              <FormControl>
+                <Input placeholder="Name of the Organizer" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="hall"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Organizer</FormLabel>
+              <FormControl>
+                <Input placeholder="Name of the Organizer" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="eventdate"
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Date of Event</FormLabel>
@@ -116,15 +169,12 @@ export function AccountForm() {
                     selected={field.value}
                     onSelect={field.onChange}
                     disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
+                      date < new Date() || date > new Date("2100-01-01")
                     }
                     initialFocus
                   />
                 </PopoverContent>
               </Popover>
-              <FormDescription>
-                Enter the date of your Event.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
