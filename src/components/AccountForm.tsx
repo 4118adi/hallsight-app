@@ -124,19 +124,7 @@ export function AccountForm() {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="hall"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Organizer</FormLabel>
-              <FormControl>
-                <Input placeholder="Name of the Organizer" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+       
 
         <FormField
           control={form.control}
