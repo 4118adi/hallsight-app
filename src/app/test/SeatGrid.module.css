@@ -1,0 +1,22 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* Customize based on number of seats */
+    gap: 10px; /* Spacing between seats */
+}
+
+.seat {
+    width: 50px; /* Customize width */
+    height: 50px; /* Customize height */
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.occupied {
+    background-color: red; /* Highlight occupied seats in red */
+}
+
+.vacant {
+    background-color: green; /* Customize color for vacant seats */
+}

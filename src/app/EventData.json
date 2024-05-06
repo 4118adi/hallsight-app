@@ -1,0 +1,30 @@
+[
+    {
+      "id": 1,
+      "name": "Annual Tech Symposium",
+      "description": "A comprehensive gathering of tech leaders and innovators.",
+      "startTime": "2024-10-15T09:00:00Z",
+      "endTime": "2024-10-15T17:00:00Z",
+      "hallId": 2,
+      "organizerId": 1
+    },
+    {
+      "id": 2,
+      "name": "Local Art Festival",
+      "description": "Showcasing local artists and performers in an all-day event.",
+      "startTime": "2024-11-20T10:00:00Z",
+      "endTime": "2024-11-20T22:00:00Z",
+      "hallId": 3,
+      "organizerId": 2
+    },
+    {
+      "id": 3,
+      "name": "Entrepreneur Workshop 2024",
+      "description": "A networking event for startups and investors.",
+      "startTime": "2024-12-05T08:00:00Z",
+      "endTime": "2024-12-05T18:00:00Z",
+      "hallId": 1,
+      "organizerId": 1
+    }
+  ]
+  
