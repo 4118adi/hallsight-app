@@ -1,5 +1,7 @@
 "use client"
 
+import { useFormState } from "react-dom"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
@@ -48,7 +50,7 @@ const accountFormSchema = z.object({
   description: z.string({
     required_error: "Please add a description.",
   }),
-  eventdate: z.date({
+  eventDate: z.date({
     required_error: "Event Date is required.",
   }),
   organizer: z.string({
@@ -57,6 +59,12 @@ const accountFormSchema = z.object({
   hall: z.string({
     required_error: "Hall is required.",
   }),
+  startTime: z.string()
+    .min(4, { message: "No more or less than 4 characters HHMM" })
+    .max(4, { message: "No more or less than 4 characters HHMM" }),
+  endTime: z.string()
+    .min(4, { message: "No more or less than 4 characters HHMM" })
+    .max(4, { message: "No more or less than 4 characters HHMM" }),
 })
 
 type AccountFormValues = z.infer<typeof accountFormSchema>
@@ -64,7 +72,7 @@ type AccountFormValues = z.infer<typeof accountFormSchema>
 // This can come from your database or API.
 const defaultValues: Partial<AccountFormValues> = {
   // name: "Your name",
-  // eventdate: new Date("2023-01-23"),
+  // eventDate: new Date("2023-01-23"),
 }
 
 export function AccountForm() {
@@ -72,21 +80,15 @@ export function AccountForm() {
     resolver: zodResolver(accountFormSchema),
     defaultValues,
   })
-
-  function onSubmit(data: AccountFormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+  
+  // here
+  const handleSubmit = async (e: any) => {
+  
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={handleSubmit} className="space-y-8">
         <FormField
           control={form.control}
           name="name"
@@ -144,7 +146,7 @@ export function AccountForm() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a hall" {...field}/>
+                    <SelectValue placeholder="Select a hall" {...field} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -163,7 +165,7 @@ export function AccountForm() {
 
         <FormField
           control={form.control}
-          name="eventdate"
+          name="eventDate"
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Date of Event</FormLabel>
@@ -198,6 +200,41 @@ export function AccountForm() {
                   />
                 </PopoverContent>
               </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+
+        <FormField
+          control={form.control}
+          name="startTime"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Start Time</FormLabel>
+              <FormControl>
+                <Input placeholder="e.g. 1630" {...field} />
+              </FormControl>
+              <FormDescription>
+                Follow HHMM format without any symbols
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="endTime"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>End Time</FormLabel>
+              <FormControl>
+                <Input placeholder="e.g. 1830" {...field} />
+              </FormControl>
+              <FormDescription>
+                Follow HHMM format without any symbols
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

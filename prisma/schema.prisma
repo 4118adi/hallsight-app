@@ -43,6 +43,7 @@ model Event {
   id          Int          @id @default(autoincrement())
   name        String
   description String
+  eventDate   DateTime
   startTime   DateTime
   endTime     DateTime
   hall        Hall         @relation(fields: [hallId], references: [id])

@@ -28,10 +28,10 @@ import { useState } from 'react';
 import { AccountForm } from "./AccountForm"
 
 export function EventDashboard() {
+// export const EventDashboard: React.FC<EventDashboardProps> = () => {
+    const [selectedLink, setSelectedLink] = useState<string>('null');
 
-    const [selectedLink, setSelectedLink] = useState('');
-
-    const handleNavigationClick = (link:string) => {
+    const handleNavigationClick = (link: string) => {
         setSelectedLink(link);
     };
 
@@ -143,63 +143,64 @@ export function EventDashboard() {
                     <nav
                         className="grid gap-4 text-sm text-muted-foreground" x-chunk="dashboard-04-chunk-0"
                     >
-                        <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                        <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground" onClick={() => handleNavigationClick('create')}>
                             Create Event
                         </Link>
-                        <Link className="text-muted-foreground transition-colors hover:text-foreground" href="#">My Events</Link>
-
-
+                        <Link className="text-muted-foreground transition-colors hover:text-foreground" href="#" onClick={() => handleNavigationClick('myevents')}>My Events</Link>
                     </nav>
-                    <div className="grid gap-6">
-                        <Card x-chunk="dashboard-04-chunk-1">
-                            <CardHeader>
-                                <CardTitle>Store Name</CardTitle>
-                                <CardDescription>
-                                    Used to identify your store in the marketplace.
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <form>
-                                    <Input placeholder="Store Name" />
-                                </form>
-                            </CardContent>
-                            <CardFooter className="border-t px-6 py-4">
-                                <Button>Save</Button>
-                            </CardFooter>
-                        </Card>
-                        <Card x-chunk="dashboard-04-chunk-2">
-                            <CardHeader>
-                                <CardTitle>Plugins Directory</CardTitle>
-                                <CardDescription>
-                                    The directory within your project, in which your plugins are
-                                    located.
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <form className="flex flex-col gap-4">
-                                    <Input
-                                        placeholder="Project Name"
-                                        defaultValue="/content/plugins"
-                                    />
-                                    <div className="flex items-center space-x-2">
-                                        <Checkbox id="include" defaultChecked />
-                                        <label
-                                            htmlFor="include"
-                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                        >
-                                            Allow administrators to change the directory.
-                                        </label>
-                                    </div>
-                                </form>
-                            </CardContent>
-                            <CardFooter className="border-t px-6 py-4">
-                                <Button>Save</Button>
-                            </CardFooter>
-                        </Card>
 
-                        <AccountForm/>
+                    <div className="grid gap-6">
+                        {selectedLink !== "create" && (
+
+                            <><Card x-chunk="dashboard-04-chunk-1">
+                                <CardHeader>
+                                    <CardTitle>Store Name</CardTitle>
+                                    <CardDescription>
+                                        Used to identify your store in the marketplace.
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <form>
+                                        <Input placeholder="Store Name" />
+                                    </form>
+                                </CardContent>
+                                <CardFooter className="border-t px-6 py-4">
+                                    <Button>Save</Button>
+                                </CardFooter>
+                            </Card><Card x-chunk="dashboard-04-chunk-2">
+                                    <CardHeader>
+                                        <CardTitle>Plugins Directory</CardTitle>
+                                        <CardDescription>
+                                            The directory within your project, in which your plugins are
+                                            located.
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <form className="flex flex-col gap-4">
+                                            <Input
+                                                placeholder="Project Name"
+                                                defaultValue="/content/plugins" />
+                                            <div className="flex items-center space-x-2">
+                                                <Checkbox id="include" defaultChecked />
+                                                <label
+                                                    htmlFor="include"
+                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                >
+                                                    Allow administrators to change the directory.
+                                                </label>
+                                            </div>
+                                        </form>
+                                    </CardContent>
+                                    <CardFooter className="border-t px-6 py-4">
+                                        <Button>Save</Button>
+                                    </CardFooter>
+                                </Card></>
+                        )}
+                        {selectedLink === "create" && (
+                            <AccountForm />
+                        )}
                     </div>
-                    
+
                 </div>
             </main>
         </div>

@@ -35,7 +35,6 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.4",
     "react-hot-toast": "^2.4.1",
-    "react-time-picker": "^7.0.0",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.6"
