@@ -26,6 +26,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 import { useState } from 'react';
 import { AccountForm } from "./AccountForm"
+import EventCard from "./EventCard"
 
 export function EventDashboard() {
 // export const EventDashboard: React.FC<EventDashboardProps> = () => {
@@ -34,7 +35,7 @@ export function EventDashboard() {
     const handleNavigationClick = (link: string) => {
         setSelectedLink(link);
     };
-
+    const events = [{id:121,name:"Java"}];
     return (
         <div className="flex min-h-screen w-full flex-col">
             <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -147,10 +148,12 @@ export function EventDashboard() {
                             Create Event
                         </Link>
                         <Link className="text-muted-foreground transition-colors hover:text-foreground" href="#" onClick={() => handleNavigationClick('myevents')}>My Events</Link>
+                        <Link className="text-muted-foreground transition-colors hover:text-foreground" href="#" onClick={() => handleNavigationClick('events')}>Events</Link>
+
                     </nav>
 
                     <div className="grid gap-6">
-                        {selectedLink !== "create" && (
+                        {selectedLink === "myevents" && (
 
                             <><Card x-chunk="dashboard-04-chunk-1">
                                 <CardHeader>
@@ -198,6 +201,19 @@ export function EventDashboard() {
                         )}
                         {selectedLink === "create" && (
                             <AccountForm />
+                        )}
+                        {selectedLink === "events" && (
+                            <div>
+                                <div>
+                                <p>Ongoing Events</p>
+                                </div>
+                            <div className="container flex">
+                                <EventCard />
+                                <EventCard />
+                                <EventCard />
+                           
+</div>
+</div>
                         )}
                     </div>
 
