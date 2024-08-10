@@ -1,6 +1,7 @@
 "use client"
 
 import { useFormState } from "react-dom"
+import { useRouter } from 'next/router'; // Import useRouter
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CalendarIcon } from "lucide-react"
@@ -50,6 +51,12 @@ const accountFormSchema = z.object({
   description: z.string({
     required_error: "Please add a description.",
   }),
+  startTime: z.date({
+    required_error: "Please select a start time.",
+  }),
+  endTime: z.date({
+    required_error: "Please select an end time.",
+  }),
   eventDate: z.date({
     required_error: "Event Date is required.",
   }),
@@ -59,12 +66,6 @@ const accountFormSchema = z.object({
   hall: z.string({
     required_error: "Hall is required.",
   }),
-  startTime: z.string()
-    .min(4, { message: "No more or less than 4 characters HHMM" })
-    .max(4, { message: "No more or less than 4 characters HHMM" }),
-  endTime: z.string()
-    .min(4, { message: "No more or less than 4 characters HHMM" })
-    .max(4, { message: "No more or less than 4 characters HHMM" }),
 })
 
 type AccountFormValues = z.infer<typeof accountFormSchema>
@@ -80,11 +81,29 @@ export function AccountForm() {
     resolver: zodResolver(accountFormSchema),
     defaultValues,
   })
-  
-  // here
-  const handleSubmit = async (e: any) => {
-  
-  }
+
+  const router = useRouter(); // For navigation after submission, if needed
+
+  const handleSubmit = form.handleSubmit(async (data) => {
+    try {
+      const response = await fetch('/api/events', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit the form');
+      }
+
+      // Redirect or notify the user
+      router.push('/success'); // Example of redirecting to a success page
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
 
   return (
     <Form {...form}>
@@ -165,58 +184,15 @@ export function AccountForm() {
 
         <FormField
           control={form.control}
-          name="eventDate"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Date of Event</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date < new Date() || date > new Date("2100-01-01")
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-
-        <FormField
-          control={form.control}
           name="startTime"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Start Time</FormLabel>
               <FormControl>
-                <Input placeholder="e.g. 1630" {...field} />
+                <Input type="datetime-local"/>
               </FormControl>
               <FormDescription>
-                Follow HHMM format without any symbols
+                Pick a date and start-time for the event
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -230,10 +206,10 @@ export function AccountForm() {
             <FormItem>
               <FormLabel>End Time</FormLabel>
               <FormControl>
-                <Input placeholder="e.g. 1830" {...field} />
+                <Input type="datetime-local"/>
               </FormControl>
               <FormDescription>
-                Follow HHMM format without any symbols
+                Pick a date and end-time for the event
               </FormDescription>
               <FormMessage />
             </FormItem>
