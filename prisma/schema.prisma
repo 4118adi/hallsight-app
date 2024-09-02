@@ -27,7 +27,6 @@ model Organizer {
   email      String  @unique
   school     String
   department String
-  events     Event[]
 }
 
 model Hall {
@@ -36,20 +35,21 @@ model Hall {
   address  String
   capacity Int
   price    Float
-  events   Event[] // Establishing a one-to-many relationship between Hall and Event
+  // events   Event[] // Establishing a one-to-many relationship between Hall and Event
 }
 
 model Event {
   id          Int          @id @default(autoincrement())
   name        String
   description String
-  eventDate   DateTime
+  organizer   String
+  hall        String
   startTime   DateTime
   endTime     DateTime
-  hall        Hall         @relation(fields: [hallId], references: [id])
-  hallId      Int // Foreign key referencing the id of Hall
-  organizer   Organizer    @relation(fields: [organizerId], references: [id])
-  organizerId Int
+  // hall        Hall         @relation(fields: [hallId], references: [id])
+  // hallId      Int // Foreign key referencing the id of Hall
+  // organizer   Organizer    @relation(fields: [organizerId], references: [id])
+  // organizerId Int
   attendances Attendance[]
 }
 
