@@ -24,23 +24,64 @@ import {
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AccountForm } from "./AccountForm"
-
+interface Event {
+    id: number;
+    name: string;
+    description: string;
+    organizer: string;
+    hall: string;
+    startTime: string; // Using string to keep it simple; adjust based on your data type
+    endTime: string;
+}
 
 export function EventDashboard() {
 
     const [isVisible, setIsVisible] = useState(false);
+    const [events, setEvents] = useState<Event[]>([]);
     const toggleVisibility = () => {
         setIsVisible(!isVisible);
     };
+    // Fetch events from the API
+    async function fetchEvents() {
+        try {
+            const response = await fetch('/api/events', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch events');
+            }
+
+            const data = await response.json();
+            setEvents(data.events); // Assuming the response format is { events: [...] }
+        } catch (error) {
+            console.error('Error fetching events:', error);
+        }
+    }
+
+    // Fetch events on component mount
+    useEffect(() => {
+        fetchEvents();
+        console.log(":)");
+
+        // Set up polling every 30 seconds
+        const interval = setInterval(fetchEvents, 100); // Adjust the interval as needed
+
+        // Clean up interval on component unmount
+        return () => clearInterval(interval);
+    }, []);
 
 
     return (
         <div className="flex min-h-screen w-full flex-col">
             <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
 
-                
+
                 <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
 
                     <Link
@@ -96,33 +137,35 @@ export function EventDashboard() {
                     <nav
                         className="grid gap-4 text-sm text-muted-foreground" x-chunk="dashboard-04-chunk-0"
                     >
-                        {/* <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground" onClick={() => handleNavigationClick('create')}>
-                            Create Event
-                        </Link>
-                        <Link className="text-muted-foreground transition-colors hover:text-foreground" href="#" onClick={() => handleNavigationClick('myevents')}>My Events</Link> */}
                     </nav>
 
                     <div className="grid gap-6">
-                        {!isVisible && (
-                            <>
-                                <Card x-chunk="dashboard-04-chunk-1">
+                        {!isVisible && (events.length > 0 ? (
+                            events.map((event) => (
+                                <Card key={event.id}>
                                     <CardHeader>
-                                        <CardTitle>Event Name</CardTitle>
-                                        <CardDescription>
-                                            Subtitle here
-                                        </CardDescription>
+                                        <CardTitle>{event.name}</CardTitle>
+                                        <CardDescription>{event.description}</CardDescription>
                                     </CardHeader>
                                     <CardContent>
-                                        <div className="flex flex-col gap-4">This is supposed to be CardDescription </div>
+                                        <div className="flex flex-col gap-4">
+                                            Organizer: {event.organizer}
+                                            <br />
+                                            Hall: {event.hall}
+                                            <br />
+                                            Start Time: {new Date(event.startTime).toLocaleString()}
+                                            <br />
+                                            End Time: {new Date(event.endTime).toLocaleString()}
+                                        </div>
                                     </CardContent>
                                     <CardFooter className="border-t px-6 py-4">
                                         <Button>Peek</Button>
                                     </CardFooter>
-
                                 </Card>
-                            </>
-
-                        )}
+                            ))
+                        ) : (
+                            <p>No upcoming events...</p>
+                        ))}
 
                         {isVisible && (
                             <AccountForm />

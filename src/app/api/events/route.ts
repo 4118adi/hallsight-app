@@ -46,6 +46,27 @@ export async function handler(req: NextRequest) {
       console.error("Error creating event:", error);
       return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
+  } else if (req.method === "DELETE") {
+    // Handle DELETE request - delete an event by ID
+    try {
+      const { searchParams } = new URL(req.url);
+      const id = searchParams.get("id");
+
+      // Validate incoming data
+      if (!id) {
+        return NextResponse.json({ error: "Event ID is required" }, { status: 400 });
+      }
+
+      // Attempt to delete the event
+      const deletedEvent = await prisma.event.delete({
+        where: { id: Number(id) },  // Assuming `id` is of type `number`
+      });
+
+      return NextResponse.json(deletedEvent, { status: 200 });
+    } catch (error) {
+      console.error("Error deleting event:", error);
+      return NextResponse.json({ error: "Failed to delete event" }, { status: 500 });
+    }
   } else {
     // Handle unsupported methods
     return NextResponse.json({ error: `Method ${req.method} Not Allowed` }, { status: 405 });
@@ -53,5 +74,4 @@ export async function handler(req: NextRequest) {
 }
 
 // Ensure correct export for API Route
-export { handler as GET, handler as POST };
-  
+export { handler as GET, handler as POST, handler as DELETE };
