@@ -26,7 +26,7 @@ const accountFormSchema = z.object({
   startTime: z.date({ required_error: "Please select a start time." }),
   endTime: z.date({ required_error: "Please select an end time." }),
   organizer: z.string(),
-  hall: z.string(),
+  hall: z.string({ required_error: "Please select a hall." }),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
@@ -98,14 +98,16 @@ export function AccountForm() {
 
         <div>
           <Label htmlFor="hall">Hall</Label>
-          <Select>
-            <SelectTrigger>
+          <Select onValueChange={(value) => form.setValue("hall", value)}
+          >
+            <SelectTrigger id="hall">
               <SelectValue placeholder="Select a venue" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="SOT Auditorium">SOT Auditorium</SelectItem>
               <SelectItem value="Nagar Auditorium">Nagar Auditorium</SelectItem>
               <SelectItem value="SOT CR 10">SOT CR 10</SelectItem>
+
             </SelectContent>
           </Select>
 
