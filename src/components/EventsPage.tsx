@@ -78,25 +78,24 @@ export function EventDashboard() {
 
 
     return (
-        <div className="flex min-h-screen w-full flex-col">
-            <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+        <div className="flex pt-0 min-h-screen w-100% flex-col">
+            <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background  px-4 md:px-6">
 
-
-                <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+                {/* <nav className="hidden  sm:flex-wrap flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
 
                     <Link
                         href="#"
-                        className="flex items-center gap-2 text-lg font-semibold md:text-base" onClick={toggleVisibility}
+                        className="flex gap-2 text-lg font-semibold md:text-base" onClick={toggleVisibility}
                     >
                         <Button > {isVisible && (<b>Browse</b>)} {!isVisible && (<b>Add</b>)}</Button>
                     </Link>
 
-                </nav>
+                </nav> */}
 
                 <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
 
 
-                    <div className="block sm:hidden relative">
+                    <div className=" relative">
                         <Link
                             href="#"
                             className="flex items-center gap-2 text-lg font-semibold md:text-base" onClick={toggleVisibility}
@@ -123,6 +122,7 @@ export function EventDashboard() {
                 </div>
             </header>
             <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
+
                 <div className="mx-auto grid w-full max-w-6xl gap-2">
                     {isVisible && (
                         <h1 className="text-3xl font-semibold"> Adding Event </h1>
@@ -133,7 +133,7 @@ export function EventDashboard() {
 
                 {/* SIDE NAVIGATION EXTRA AREA HEREEEEE */}
 
-                <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
+                <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[100px_200px] lg:grid-cols-[100px_500px]">
                     <nav
                         className="grid gap-4 text-sm text-muted-foreground" x-chunk="dashboard-04-chunk-0"
                     >
@@ -149,13 +149,12 @@ export function EventDashboard() {
                                     </CardHeader>
                                     <CardContent>
                                         <div className="flex flex-col gap-4">
-                                            Organizer: {event.organizer}
-                                            <br />
-                                            Hall: {event.hall}
-                                            <br />
+                                            Hall: {event.hall} <br />
                                             Start Time: {new Date(event.startTime).toLocaleString()}
                                             <br />
                                             End Time: {new Date(event.endTime).toLocaleString()}
+                                            <br />
+                                            Organizer: {event.organizer}
                                         </div>
                                     </CardContent>
                                     <CardFooter className="border-t px-6 py-4">
@@ -164,7 +163,7 @@ export function EventDashboard() {
                                 </Card>
                             ))
                         ) : (
-                            <p>No upcoming events...</p>
+                            <p>No upcoming events</p>
                         ))}
 
                         {isVisible && (

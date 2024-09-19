@@ -60,77 +60,84 @@ export function AccountForm() {
   });
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <Label htmlFor="name">Event Title</Label>
-        <Input
-          id="name"
-          type="text"
-          placeholder="Literary Criticism"
-          {...form.register("name")}
-        />
-        {errors.name && <p>{errors.name.message}</p>}
-      </div>
+    <div className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
 
-      <div>
-        <Label htmlFor="description">Event Description</Label>
-        <Input
-          id="description"
-          type="text"
-          placeholder="An event aimed towards..."
-          {...form.register("description")}
-        />
-        {errors.description && <p>{errors.description.message}</p>}
-      </div>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <Label htmlFor="name">Event Title</Label>
+          <Input
+            id="name"
+            type="text"
+            placeholder="Literary Criticism"
+            {...form.register("name")}
+          />
+          {errors.name && <p>{errors.name.message}</p>}
+        </div>
 
-      <div>
-        <Label htmlFor="organizer">Organizer</Label>
-        <Input
-          id="organizer"
-          type="text"
-          placeholder="Name of the Organizer"
-          {...form.register("organizer")}
-        />
-        {errors.organizer && <p>{errors.organizer.message}</p>}
-      </div>
+        <div>
+          <Label htmlFor="description">Event Description</Label>
+          <Input
+            id="description"
+            type="text"
+            placeholder="An event aimed towards..."
+            {...form.register("description")}
+          />
+          {errors.description && <p>{errors.description.message}</p>}
+        </div>
 
-      <div>
-        <Label htmlFor="hall">Hall</Label>
-        <select id="hall" {...form.register("hall")}>
-          <option value="">Select a hall</option>
-          <option value="SOT Auditorium">SOT Auditorium</option>
-          <option value="Nagar Auditorium">Nagar Auditorium</option>
-          <option value="SOT CR 10">SOT CR 10</option>
-        </select>
+        <div>
+          <Label htmlFor="organizer">Organizer</Label>
+          <Input
+            id="organizer"
+            type="text"
+            placeholder="Name of the Organizer"
+            {...form.register("organizer")}
+          />
+          {errors.organizer && <p>{errors.organizer.message}</p>}
+        </div>
 
-        {errors.hall && <p>{errors.hall.message}</p>}
-      </div>
+        <div>
+          <Label htmlFor="hall">Hall</Label>
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Select a venue" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="SOT Auditorium">SOT Auditorium</SelectItem>
+              <SelectItem value="Nagar Auditorium">Nagar Auditorium</SelectItem>
+              <SelectItem value="SOT CR 10">SOT CR 10</SelectItem>
+            </SelectContent>
+          </Select>
 
-      <div>
-        <Label htmlFor="startTime">Start Time</Label>
-        <Input
-          id="startTime"
-          type="datetime-local"
-          {...form.register("startTime", {
-            valueAsDate: true,
-          })}
-        />
-        {errors.startTime && <p>{errors.startTime.message}</p>}
-      </div>
+          {errors.hall && <p>{errors.hall.message}</p>}
+        </div>
 
-      <div>
-        <Label htmlFor="endTime">End Time</Label>
-        <Input
-          id="endTime"
-          type="datetime-local"
-          {...form.register("endTime", {
-            valueAsDate: true,
-          })}
-        />
-        {errors.endTime && <p>{errors.endTime.message}</p>}
-      </div>
+        <div>
+          <Label htmlFor="startTime">Start Time</Label>
+          <Input
+            id="startTime"
+            type="datetime-local"
+            {...form.register("startTime", {
+              valueAsDate: true,
+            })}
+          />
+          {errors.startTime && <p>{errors.startTime.message}</p>}
+        </div>
 
-      <Button type="submit">Organize Event</Button>
-    </form>
+        <div>
+          <Label htmlFor="endTime">End Time</Label>
+          <Input
+            id="endTime"
+            type="datetime-local"
+            {...form.register("endTime", {
+              valueAsDate: true,
+            })}
+          />
+          {errors.endTime && <p>{errors.endTime.message}</p>}
+        </div>
+
+        <Button type="submit">Organize</Button>
+      </form>
+    </div>
   );
 }
