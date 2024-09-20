@@ -7,6 +7,9 @@
 .pnp.js
 .yarn/install-state.gz
 
+# prisma migrations
+/home/jaqen/minorProject/hallsight-app/prisma/migrations
+
 # testing
 /coverage
 

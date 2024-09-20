@@ -3,6 +3,17 @@
 import Link from "next/link"
 import { CircleUser, Menu, Package2, Search } from "lucide-react"
 
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet"
+
+import { Label } from "@/components/ui/label"
+
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -12,7 +23,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -22,10 +33,12 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 import { useState, useEffect } from 'react';
 import { AccountForm } from "./AccountForm"
+
+import GridContainer from "./GridContainer"
+
 interface Event {
     id: number;
     name: string;
@@ -158,7 +171,27 @@ export function EventDashboard() {
                                         </div>
                                     </CardContent>
                                     <CardFooter className="border-t px-6 py-4">
-                                        <Button>Peek</Button>
+                                        {/* <Button>Peek</Button> */}
+                                        <Sheet>
+                                            <SheetTrigger><Button>Peek</Button></SheetTrigger>
+                                            <SheetContent side='bottom'>
+                                                <SheetHeader>
+                                                    <SheetTitle>{event.name}</SheetTitle>
+                                                    <SheetDescription>
+                                                        Real-time Seat Occupancy
+                                                    </SheetDescription>
+                                                </SheetHeader>
+                                                <div className="overflow-x-auto">
+                                                    <div className="flex">
+                                                        {/* Left and Right Containers */}
+                                                        <GridContainer rows={9} columns={7} />
+                                                        <GridContainer rows={9} columns={7} /> {/* Add your right container here */}
+                                                    </div>
+                                                </div>
+
+                                            </SheetContent>
+                                        </Sheet>
+
                                     </CardFooter>
                                 </Card>
                             ))
