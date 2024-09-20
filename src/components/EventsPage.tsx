@@ -70,10 +70,10 @@ export function EventDashboard() {
         console.log(":)");
 
         // Set up polling every 30 seconds
-        const interval = setInterval(fetchEvents, 100); // Adjust the interval as needed
+        // const interval = setInterval(fetchEvents, 1000); // Adjust the interval as needed
 
         // Clean up interval on component unmount
-        return () => clearInterval(interval);
+        // return () => clearInterval(interval);
     }, []);
 
 
