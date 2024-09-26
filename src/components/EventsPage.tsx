@@ -39,6 +39,8 @@ import { AccountForm } from "./AccountForm"
 
 import GridContainer from "./GridContainer"
 
+import axios from "axios"
+
 interface Event {
     id: number;
     name: string;
@@ -56,6 +58,33 @@ export function EventDashboard() {
     const toggleVisibility = () => {
         setIsVisible(!isVisible);
     };
+
+
+    // fetching the data for PEEK here
+
+    const [showGrid, setShowGrid] = useState(false); // State to control the display of the grid
+    const [seatStatuses, setSeatStatuses] = useState<string[]>([]); // State to store seat statuses from API
+
+    // Function to fetch seat statuses from the API
+    const fetchSeatStatuses = async () => {
+        try {
+            // Make a GET request to your API to fetch the seat data
+            const response = await axios.get('/api/seat');
+            const seatStatusObject = response.data;
+
+            setSeatStatuses(seatStatusObject); // Set the array of occupied seat IDs
+
+            console.log('Unoccupied Seats:', seatStatusObject);
+            console.log('state:', seatStatuses);
+
+            setShowGrid(true); // Show the grid after fetching the data
+
+        } catch (error) {
+            console.error('Error fetching seat data:', error);
+        }
+    };
+
+
     // Fetch events from the API
     async function fetchEvents() {
         try {
@@ -93,17 +122,6 @@ export function EventDashboard() {
     return (
         <div className="flex pt-0 min-h-screen w-100% flex-col">
             <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background  px-4 md:px-6">
-
-                {/* <nav className="hidden  sm:flex-wrap flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-
-                    <Link
-                        href="#"
-                        className="flex gap-2 text-lg font-semibold md:text-base" onClick={toggleVisibility}
-                    >
-                        <Button > {isVisible && (<b>Browse</b>)} {!isVisible && (<b>Add</b>)}</Button>
-                    </Link>
-
-                </nav> */}
 
                 <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
 
@@ -173,22 +191,44 @@ export function EventDashboard() {
                                     <CardFooter className="border-t px-6 py-4">
                                         {/* <Button>Peek</Button> */}
                                         <Sheet>
-                                            <SheetTrigger><Button>Peek</Button></SheetTrigger>
+                                            <SheetTrigger><Button onClick={fetchSeatStatuses}>Peek</Button></SheetTrigger>
                                             <SheetContent side='bottom'>
                                                 <SheetHeader>
                                                     <SheetTitle>{event.name}</SheetTitle>
                                                     <SheetDescription>
-                                                        Real-time Seat Occupancy
+
                                                     </SheetDescription>
                                                 </SheetHeader>
-                                                <div className="overflow-x-auto">
-                                                    <div className="flex">
-                                                        {/* Left and Right Containers */}
-                                                        <GridContainer rows={9} columns={7} />
-                                                        <GridContainer rows={9} columns={7} /> {/* Add your right container here */}
-                                                    </div>
-                                                </div>
 
+                                                {showGrid && (
+                                                    <div className="flex-col overflow-x-auto">
+                                                        
+                                                        <div className="flex py-2 space-x-2">
+                                                            <div className="flex-shrink-0"> {/* Ensure left container does not shrink */}
+                                                                <GridContainer rows={1} columns={7} startLetter="A" seatStatuses={seatStatuses} />
+
+                                                            </div>
+                                                            <div className="flex-row flex-shrink-0"> {/* Ensure right container does not shrink */}
+                                                                <GridContainer rows={1} columns={2} startLetter="H" seatStatuses={seatStatuses} />
+
+                                                            </div>
+                                                            <div className="flex-shrink-0"> {/* Ensure left container does not shrink */}
+                                                                <GridContainer rows={1} columns={7} startLetter="A" seatStatuses={seatStatuses} />
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="flex space-x-10">
+                                                            <div className="flex-shrink-0"> {/* Ensure left container does not shrink */}
+                                                                <GridContainer rows={10} columns={7} startLetter="A" seatStatuses={seatStatuses} />
+
+                                                            </div>
+                                                            <div className="flex-shrink-0"> {/* Ensure right container does not shrink */}
+                                                                <GridContainer rows={10} columns={7} startLetter="H" seatStatuses={seatStatuses} />
+
+                                                            </div>
+                                                        </div>
+                                                    </div>)}
                                             </SheetContent>
                                         </Sheet>
 
