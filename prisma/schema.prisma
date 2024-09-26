@@ -22,9 +22,9 @@ model Attendee {
 }
 
 model Organizer {
-  id         Int     @id @default(autoincrement())
+  id         Int    @id @default(autoincrement())
   name       String
-  email      String  @unique
+  email      String @unique
   school     String
   department String
 }
@@ -33,9 +33,10 @@ model Hall {
   id       Int     @id @default(autoincrement())
   name     String
   address  String
+  seats    Json // JSON to store seat positions and attributes
   capacity Int
   price    Float
-  // events   Event[] // Establishing a one-to-many relationship between Hall and Event
+  events   Event[] // Establishing a one-to-many relationship between Hall and Event
 }
 
 model Event {
@@ -43,11 +44,10 @@ model Event {
   name        String
   description String
   organizer   String
-  hall        String
   startTime   DateTime
   endTime     DateTime
-  // hall        Hall         @relation(fields: [hallId], references: [id])
-  // hallId      Int // Foreign key referencing the id of Hall
+  hall        Hall         @relation(fields: [hallId], references: [id])
+  hallId      Int // Foreign key referencing the id of Hall
   // organizer   Organizer    @relation(fields: [organizerId], references: [id])
   // organizerId Int
   attendances Attendance[]
@@ -63,16 +63,21 @@ model Attendance {
 }
 
 model User {
-  id                        Int       @id @default(autoincrement())
-  username                  String    @unique
-  email                     String    @unique
-  password                  String
-  role                      Role      @default(ATTENDEE)
+  id                            Int      @id @default(autoincrement())
+  username                      String   @unique
+  email                         String   @unique
+  password                      String
+  isVerified                    Boolean  @default(false)
+  forgotPasswordToken           String?   
+  forgotPasswordTokenExpiration DateTime? 
+  verifyToken                   String?
+  verifyTokenExpiration         DateTime?
+  role                          Role     @default(ATTENDEE)
 }
 
-model session{
-  user_id            Int             @unique
-  lastAccessedDate   DateTime        @default(now())
+model session {
+  user_id          Int      @unique
+  lastAccessedDate DateTime @default(now())
 }
 
 enum Role {

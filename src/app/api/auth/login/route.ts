@@ -23,6 +23,9 @@ export async function handler(request: NextRequest){
         if(!user){
             console.log("User does not exist");
             return NextResponse.json({error: "User does not exist"}, {status: 400})
+        } else if (!user.isVerified) {
+            console.log("User is not verified");
+            return NextResponse.json({error: "User is not verified"}, {status: 400})
         }
         console.log("user exists");
         
@@ -43,7 +46,7 @@ export async function handler(request: NextRequest){
             email: user.email
         }
         //create token
-        const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, {expiresIn: "1h"})
+        const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, {expiresIn: "1d"})
 
         const response = NextResponse.json({
             message: "Login successful",
