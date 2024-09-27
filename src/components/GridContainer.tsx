@@ -13,7 +13,7 @@ const generateGridItems = (rows: number, columns: number, startLetter: string, s
   const gridItems = [];
 
   for (let row = rows; row > 0; row--) {
-    for (let col = 0; col < cols; col++) {
+    for (let col = 0; col < columns; col++) {
       const letter = String.fromCharCode(65 + col); // Convert col number to letter (A, B, C, ...)
       const id = `${row}${letter}`; // Generate ID like 9A, 9B, etc.
 
