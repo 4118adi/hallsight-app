@@ -199,36 +199,36 @@ export function EventDashboard() {
 
                                                     </SheetDescription>
                                                 </SheetHeader>
-
                                                 {showGrid && (
                                                     <div className="flex-col overflow-x-auto">
-                                                        
                                                         <div className="flex py-2 space-x-2">
-                                                            <div className="flex-shrink-0"> {/* Ensure left container does not shrink */}
-                                                                <GridContainer rows={1} columns={7} startLetter="A" seatStatuses={seatStatuses} />
+                                                            <div className="flex-shrink-0">
+                                                                <GridContainer rows={1} startRow={0} columns={7} startLetter="A" seatStatuses={seatStatuses} />
 
                                                             </div>
-                                                            <div className="flex-row flex-shrink-0"> {/* Ensure right container does not shrink */}
-                                                                <GridContainer rows={1} columns={2} startLetter="H" seatStatuses={seatStatuses} />
-
+                                                            <div className=" flex-shrink-0">
+                                                                <GridContainer rows={1} startRow={0} columns={7} startLetter="H" seatStatuses={seatStatuses} />
                                                             </div>
-                                                            <div className="flex-shrink-0"> {/* Ensure left container does not shrink */}
-                                                                <GridContainer rows={1} columns={7} startLetter="A" seatStatuses={seatStatuses} />
-
+                                                            <div className="flex-shrink-0">
+                                                                <GridContainer rows={1} startRow={0} columns={1} startLetter="O" seatStatuses={seatStatuses} />
+                                                            </div>
+                                                            <div className="flex-shrink-0">
+                                                                <GridContainer rows={1} startRow={0} columns={1} startLetter="P" seatStatuses={seatStatuses} />
                                                             </div>
                                                         </div>
 
-                                                        <div className="flex space-x-10">
+                                                        <div className="flex space-x-20">
                                                             <div className="flex-shrink-0"> {/* Ensure left container does not shrink */}
-                                                                <GridContainer rows={10} columns={7} startLetter="A" seatStatuses={seatStatuses} />
+                                                                <GridContainer startRow={1} rows={10} columns={7} startLetter="A" seatStatuses={seatStatuses} />
 
                                                             </div>
                                                             <div className="flex-shrink-0"> {/* Ensure right container does not shrink */}
-                                                                <GridContainer rows={10} columns={7} startLetter="H" seatStatuses={seatStatuses} />
+                                                                <GridContainer startRow={1} rows={10} columns={7} startLetter="H" seatStatuses={seatStatuses} />
 
                                                             </div>
                                                         </div>
                                                     </div>)}
+
                                             </SheetContent>
                                         </Sheet>
 

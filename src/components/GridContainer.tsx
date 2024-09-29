@@ -1,28 +1,44 @@
-// components/GridContainer.tsx
 import React from 'react';
 
 interface GridContainerProps {
   rows: number;
   columns: number;
   startLetter: string;
+  startRow: number; // New prop to specify the starting row number
   seatStatuses: string[]; // Accept seat statuses as a prop
 }
 
 // Function to generate the grid items with IDs
-const generateGridItems = (rows: number, columns: number, startLetter: string, seatStatuses: string[]) => {
+const generateGridItems = (
+  rows: number,
+  columns: number,
+  startLetter: string,
+  startRow: number, // Add startRow parameter
+  seatStatuses: string[]
+) => {
   const gridItems = [];
+  const startCharCode = startLetter.charCodeAt(0);
 
-  for (let row = rows; row > 0; row--) {
+  // Loop through each row, now starting from the passed startRow
+  for (let row = startRow + rows - 1; row >= startRow; row--) {
+    // Loop through each column
     for (let col = 0; col < columns; col++) {
-      const letter = String.fromCharCode(65 + col); // Convert col number to letter (A, B, C, ...)
-      const id = `${row}${letter}`; // Generate ID like 9A, 9B, etc.
+      const letter = String.fromCharCode(startCharCode + col); // Get letter based on column index
+      const id = `${row}${letter}`; // Generate ID like 9H, 9I, etc.
 
-      const isOccupied = !seatStatuses.includes(id); // Check if the seat is occupied
+      // Check if the seat is occupied
+      const isOccupied = !seatStatuses.includes(id);
 
+      // Set the color for the seat
       const seatColor = isOccupied ? 'bg-gray-300' : 'bg-green-300';
-      // Push the div with the ID and display the ID inside the div
+
+      // Push the seat div with the seat ID
       gridItems.push(
-        <div key={id} id={id} className={`border-2 ${seatColor} w-10 h-10 flex items-center justify-center`}>
+        <div
+          key={id}
+          id={id}
+          className={`border-2 ${seatColor} w-10 h-10 flex-shrink-0 flex items-center justify-center`}
+        >
           {id}
         </div>
       );
@@ -32,10 +48,18 @@ const generateGridItems = (rows: number, columns: number, startLetter: string, s
   return gridItems;
 };
 
-const GridContainer: React.FC<GridContainerProps> = ({ rows, columns, startLetter, seatStatuses }) => {
+const GridContainer: React.FC<GridContainerProps> = ({
+  rows,
+  columns,
+  startLetter,
+  startRow, // Add startRow as a prop
+  seatStatuses,
+}) => {
   return (
-    <div className={`grid grid-cols-${columns} gap-2`}>
-      {generateGridItems(rows, columns, startLetter, seatStatuses)}
+    <div className="w-full overflow-x-auto flex-shrink-0">
+      <div className={`grid grid-cols-${columns} gap-2`}>
+        {generateGridItems(rows, columns, startLetter, startRow, seatStatuses)}
+      </div>
     </div>
   );
 };
