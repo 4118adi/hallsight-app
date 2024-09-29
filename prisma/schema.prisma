@@ -9,25 +9,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Attendee {
-  id            Int          @id @default(autoincrement())
-  name          String
-  enrollmentNum String       @unique
-  email         String       @unique
-  school        String
-  branch        String
-  semester      Int
-  university    String
-  attendances   Attendance[]
-}
+// model Attendee {
+//   id            Int          @id @default(autoincrement())
+//   name          String
+//   enrollmentNum String       @unique
+//   email         String       @unique
+//   school        String
+//   branch        String
+//   semester      Int
+//   university    String
+//   attendances   Attendance[]
+// }
 
-model Organizer {
-  id         Int    @id @default(autoincrement())
-  name       String
-  email      String @unique
-  school     String
-  department String
-}
+// model Organizer {
+//   id         Int    @id @default(autoincrement())
+//   name       String
+//   email      String @unique
+//   school     String
+//   department String
+// }
 
 model Hall {
   id       Int     @id @default(autoincrement())
@@ -46,39 +46,40 @@ model Event {
   organizer   String
   startTime   DateTime
   endTime     DateTime
-  hall        Hall         @relation(fields: [hallId], references: [id])
-  hallId      Int // Foreign key referencing the id of Hall
+  hall        String
+  hallname    Hall?         @relation(fields: [hallId], references: [id])
+  hallId      Int? // Foreign key referencing the id of Hall
   // organizer   Organizer    @relation(fields: [organizerId], references: [id])
   // organizerId Int
-  attendances Attendance[]
+  // attendances Attendance[]
 }
 
-model Attendance {
-  id         Int      @id @default(autoincrement())
-  attendeeId Int
-  eventId    Int
-  date       DateTime
-  attendee   Attendee @relation(fields: [attendeeId], references: [id])
-  event      Event    @relation(fields: [eventId], references: [id])
-}
+// model Attendance {
+  // id         Int      @id @default(autoincrement())
+  // attendeeId Int
+  // eventId    Int
+  // date       DateTime
+  // attendee   Attendee @relation(fields: [attendeeId], references: [id])
+  // event      Event    @relation(fields: [eventId], references: [id])
+// }
 
 model User {
-  id                            Int      @id @default(autoincrement())
-  username                      String   @unique
-  email                         String   @unique
+  id                            Int       @id 
+  username                      String    @unique
+  email                         String    @unique
   password                      String
-  isVerified                    Boolean  @default(false)
-  forgotPasswordToken           String?   
-  forgotPasswordTokenExpiration DateTime? 
+  isVerified                    Boolean   @default(false)
+  forgotPasswordToken           String?
+  forgotPasswordTokenExpiration DateTime?
   verifyToken                   String?
   verifyTokenExpiration         DateTime?
-  role                          Role     @default(ATTENDEE)
+  role                          Role      @default(ATTENDEE)
 }
 
-model session {
-  user_id          Int      @unique
-  lastAccessedDate DateTime @default(now())
-}
+// model session {
+//   user_id          Int      @unique
+//   lastAccessedDate DateTime @default(now())
+// }
 
 enum Role {
   ADMIN

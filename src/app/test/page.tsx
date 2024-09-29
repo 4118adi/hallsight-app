@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import styles from "@/app/test/SeatGrid.module.css"; // Import your custom CSS for styling
-
+import UserManagement from "@/components/UserManagement"
 // Define the type for seat data
 type SeatData = Record<string, boolean>;
 
@@ -39,7 +39,7 @@ const SeatGrid = () => {
 
     return (
         <div className={styles.grid}>
-            {Object.keys(seatData).map((seatNo) => (
+            {/* {Object.keys(seatData).map((seatNo) => (
                 <div
                     key={seatNo}
                     className={`${styles.seat} ${seatData[seatNo] ? styles.occupied : styles.vacant
@@ -47,7 +47,8 @@ const SeatGrid = () => {
                 >
                     {seatNo}
                 </div>
-            ))}
+            ))} */}
+            <UserManagement></UserManagement>
         </div>
     );
 };

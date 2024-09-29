@@ -10,7 +10,6 @@ const UserTable = () => {
         username:"",
         email:"",
 
-
     });
 
     const fetchUsers = async () => {
@@ -41,7 +40,7 @@ const UserTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user) => (
+                    {Object.entries(users).map((user:any) => (
                         <tr key={user.id}>
                             <td className="border px-4 py-2">{user.username}</td>
                             <td className="border px-4 py-2">{user.email}</td>

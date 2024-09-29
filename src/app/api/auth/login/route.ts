@@ -43,7 +43,8 @@ export async function handler(request: NextRequest){
         const tokenData = {
             id: user.id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            role: user.role
         }
         //create token
         const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, {expiresIn: "1d"})
@@ -53,7 +54,9 @@ export async function handler(request: NextRequest){
             success: true,
         })
         response.cookies.set("token", token, {
-            httpOnly: true, 
+            httpOnly: true,
+            secure: true,
+            path: "/"
         })
         return response;
 

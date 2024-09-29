@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcryptjs from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
-import { sendEmail } from "@/helpers/mailer/mailer";
-import { any } from "zod";
-import { error } from "console";
+
 
 const prisma = new PrismaClient()
 

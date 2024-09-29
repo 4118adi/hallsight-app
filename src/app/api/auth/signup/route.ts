@@ -28,6 +28,7 @@ async function handler(request: NextRequest) {
         // Create new user
         const newUser = await prisma.user.create({
             data: {
+                id: Math.floor(100000000 + Math.random() * 900000000),
                 username,
                 email,
                 password: hashedPassword
