@@ -40,6 +40,9 @@ import { AccountForm } from "./AccountForm"
 import GridContainer from "./GridContainer"
 
 import axios from "axios"
+import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
+import { getUserIdFromToken } from "@/helpers/getUserIdFromToken/getUserIdFromToken"
 
 interface Event {
     id: number;
@@ -54,15 +57,16 @@ interface Event {
 export function EventDashboard() {
 
     const [isVisible, setIsVisible] = useState(false);
+    const [user, setUser] = useState<any>(null);
     const [events, setEvents] = useState<Event[]>([]);
     const toggleVisibility = () => {
         setIsVisible(!isVisible);
     };
-
+    const router = useRouter();
 
     // fetching the data for PEEK here
 
-    const [showGrid, setShowGrid] = useState(false); // State to control the display of the grid
+    const [showGrid, setShowGrid] = useState(true); // State to control the display of the grid
     const [seatStatuses, setSeatStatuses] = useState<string[]>([]); // State to store seat statuses from API
 
     // Function to fetch seat statuses from the API
@@ -105,11 +109,22 @@ export function EventDashboard() {
             console.error('Error fetching events:', error);
         }
     }
-
+    const getUserDetails = async () => {
+        try {
+            const res = await axios.post("/api/user");
+            const userData = res.data.data; // Access 'data' key in response
+            console.log(userData);
+            setUser(userData); // Set user state
+        } catch (error: any) {
+            console.error("Error fetching user details:", error.message);
+        }
+    };
     // Fetch events on component mount
     useEffect(() => {
         fetchEvents();
-        console.log(":)");
+        if (!user) {
+            getUserDetails();
+        }
 
         // Set up polling every 30 seconds
         // const interval = setInterval(fetchEvents, 1000); // Adjust the interval as needed
@@ -117,7 +132,15 @@ export function EventDashboard() {
         // Clean up interval on component unmount
         // return () => clearInterval(interval);
     }, []);
-
+    const logout = async () => {
+        try {
+            await axios.post("/api/auth/logout")
+            toast.success("Logged Out Successfully")
+            router.push("/")
+        } catch (error: any) {
+            toast.error(error.message)
+        }
+    }
 
     return (
         <div className="flex pt-0 min-h-screen w-100% flex-col">
@@ -125,15 +148,17 @@ export function EventDashboard() {
 
                 <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
 
-
-                    <div className=" relative">
-                        <Link
-                            href="#"
-                            className="flex items-center gap-2 text-lg font-semibold md:text-base" onClick={toggleVisibility}
-                        >
-                            <Button>{isVisible && (<b>Browse</b>)} {!isVisible && (<b>Add</b>)}</Button>
-                        </Link>
-                    </div>
+                    {user && user.role !== "ATTENDEE" && (  // Conditionally display the Add Event button
+                        <div className="relative">
+                            <Link
+                                href="#"
+                                className="flex items-center gap-2 text-lg font-semibold md:text-base"
+                                onClick={toggleVisibility}
+                            >
+                                <Button>{isVisible ? (<b>Browse</b>) : (<b>Add Event</b>)}</Button>
+                            </Link>
+                        </div>
+                    )}
                     <div className="mx-auto grid w-full max-w-6xl gap-2">
                         <h1 className="text-3xl font-semibold"><b>Hall</b><i>Sight</i></h1>
                     </div>
@@ -147,7 +172,7 @@ export function EventDashboard() {
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>My Account</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>Logout</DropdownMenuItem>
+                            <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>

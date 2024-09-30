@@ -31,9 +31,12 @@ export default function LoginForm() {
         },
         body: JSON.stringify({ email: email, password: password }),
       });
+      console.log(response)
       if (response.status === 200) {
         toast.success("Login success");
+        console.log("hiii");
         router.push("/home");
+        console.log("byye")
       } else {
         const body = await response.json();
         console.log(body);

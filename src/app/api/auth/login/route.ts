@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
+import { redirect } from "next/navigation";
 
 const prisma = new PrismaClient();
 
@@ -12,7 +13,6 @@ export async function handler(request: NextRequest){
 
         const reqBody = await request.json()
         const {email, password} = reqBody;
-        console.log(reqBody);
 
         //check if user exists
         const user = await prisma.user.findUnique({
@@ -27,17 +27,14 @@ export async function handler(request: NextRequest){
             console.log("User is not verified");
             return NextResponse.json({error: "Please verify your email."}, {status: 400})
         }
-        console.log("user exists");
         
         
         //check if password is correct
         const validPassword = await bcryptjs.compare(password, user.password)
         if(!validPassword){
-            console.log("Invalid");
             return NextResponse.json({error: "Invalid password"}, {status: 400})
         }
         
-        console.log(user);
         
         //create token data
         const tokenData = {
