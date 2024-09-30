@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 
 export default async function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value || "";  // Get the token value
-  console.log(token);
   const path = req.nextUrl.pathname;
   const isPublicPath = path === '/' || path === '/signup' || path === '/verify';
   if (isPublicPath && token) {

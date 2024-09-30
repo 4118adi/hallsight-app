@@ -113,7 +113,6 @@ export function EventDashboard() {
         try {
             const res = await axios.post("/api/user");
             const userData = res.data.data; // Access 'data' key in response
-            console.log(userData);
             setUser(userData); // Set user state
         } catch (error: any) {
             console.error("Error fetching user details:", error.message);
@@ -125,12 +124,6 @@ export function EventDashboard() {
         if (!user) {
             getUserDetails();
         }
-
-        // Set up polling every 30 seconds
-        // const interval = setInterval(fetchEvents, 1000); // Adjust the interval as needed
-
-        // Clean up interval on component unmount
-        // return () => clearInterval(interval);
     }, []);
     const logout = async () => {
         try {
