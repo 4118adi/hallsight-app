@@ -23,15 +23,16 @@ export default function SignupForm() {
         e.preventDefault();
         console.log(user);
         try {
-            const response = await fetch('/api/auth/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(user),
-            });
-            console.log('Signup successful:', response);
-            if (response.status === 200) {
+            // const response = await fetch('/api/auth/signup', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(user),
+            // });
+            const res = await axios.post("/api/auth/signup", user);
+            console.log('Signup successful:', res);
+            if (res.status === 200) {
                 router.push("/");
             } else {
                 setError("Username or Email is already used.");

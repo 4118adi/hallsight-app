@@ -35,7 +35,9 @@ export default function LoginForm() {
         toast.success("Login success");
         router.push("/home");
       } else {
-        setError("Invalid Credentials");
+        const body = await response.json();
+        console.log(body);
+        setError(body.error || "Error Occured");
       }
     } catch (error: any) {
       console.error('Error signing up:', error.response.data);

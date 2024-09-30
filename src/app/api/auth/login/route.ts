@@ -25,7 +25,7 @@ export async function handler(request: NextRequest){
             return NextResponse.json({error: "User does not exist"}, {status: 400})
         } else if (!user.isVerified) {
             console.log("User is not verified");
-            return NextResponse.json({error: "User is not verified"}, {status: 400})
+            return NextResponse.json({error: "Please verify your email."}, {status: 400})
         }
         console.log("user exists");
         
